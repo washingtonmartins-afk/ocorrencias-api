@@ -230,28 +230,30 @@ def enviar_ocorrencia():
         }), 200
 
     except Exception as e:
-        erro = str(e)
+        import traceback
+    erro = traceback.format_exc()
+    print(erro)
 
-        try:
-            data = request.get_json(force=True)
-            curso = data.get("curso", "")
-            to, cc = obter_destinatarios(curso)
+    try:
+        data = request.get_json(force=True)
+        curso = data.get("curso", "")
+        to, cc = obter_destinatarios(curso)
 
-            salvar_ocorrencia(
-                data=data,
-                to=to or [],
-                cc=cc or [],
-                status_envio="erro",
-                enviado_em=None,
-                erro_envio=erro
-            )
-        except Exception:
-            pass
+        salvar_ocorrencia(
+            data=data,
+            to=to or [],
+            cc=cc or [],
+            status_envio="erro",
+            enviado_em=None,
+            erro_envio=str(e)
+        )
+    except Exception:
+        pass
 
-        return jsonify({
-            "ok": False,
-            "erro": erro
-        }), 500
+    return jsonify({
+        "ok": False,
+        "erro": str(e)
+    }), 500
 
 
 @app.get("/health")
