@@ -34,7 +34,8 @@ MAPEAMENTO_EMAILS = {
 # =========================
 def init_db():
     if os.path.exists(DB_PATH):
-        os.remove(DB_PATH)  # 🔥 apaga o banco antigo
+        os.remove(DB_PATH)
+
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     cur.execute("""
@@ -62,7 +63,6 @@ def init_db():
     """)
     conn.commit()
     conn.close()
-
 
 # =========================
 # VALIDAÇÃO
