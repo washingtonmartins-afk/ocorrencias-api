@@ -18,7 +18,7 @@ SMTP_PASS = os.getenv("SMTP_PASS", "")
 EMAIL_FROM = os.getenv("EMAIL_FROM", SMTP_USER)
 
 DB_PATH = os.getenv("DB_PATH", "ocorrencias.db")
-EMAIL_PEDAGOGICO = "pedagogico.vgd@ifmt.edu.br"
+EMAIL_PEDAGOGICO = "pedagogico.vgd@vgd.ifmt.edu.br"
 
 # Coordenações por curso
 MAPEAMENTO_EMAILS = {
@@ -85,6 +85,7 @@ def validar_payload(data: dict) -> list:
 def normalizar_curso(curso: str) -> str:
     if not curso:
         return ""
+
     curso = curso.strip().lower()
     mapa_alias = {
         "logística": "logistica",
@@ -231,29 +232,29 @@ def enviar_ocorrencia():
 
     except Exception as e:
         import traceback
-    erro = traceback.format_exc()
-    print(erro)
+        erro_completo = traceback.format_exc()
+        print("ERRO COMPLETO:\n", erro_completo)
 
-    try:
-        data = request.get_json(force=True)
-        curso = data.get("curso", "")
-        to, cc = obter_destinatarios(curso)
+        try:
+            data = request.get_json(force=True)
+            curso = data.get("curso", "")
+            to, cc = obter_destinatarios(curso)
 
-        salvar_ocorrencia(
-            data=data,
-            to=to or [],
-            cc=cc or [],
-            status_envio="erro",
-            enviado_em=None,
-            erro_envio=str(e)
-        )
-    except Exception:
-        pass
+            salvar_ocorrencia(
+                data=data,
+                to=to or [],
+                cc=cc or [],
+                status_envio="erro",
+                enviado_em=None,
+                erro_envio=str(e)
+            )
+        except Exception as erro_secundario:
+            print("ERRO AO SALVAR FALHA:\n", str(erro_secundario))
 
-    return jsonify({
-        "ok": False,
-        "erro": str(e)
-    }), 500
+        return jsonify({
+            "ok": False,
+            "erro": str(e)
+        }), 500
 
 
 @app.get("/health")
@@ -279,4 +280,4 @@ def home():
 if __name__ == "__main__":
     init_db()
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host="0.0.0.0", port=port, debug=False)
