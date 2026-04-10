@@ -18,7 +18,7 @@ SMTP_PASS = os.getenv("SMTP_PASS", "")
 EMAIL_FROM = os.getenv("EMAIL_FROM", SMTP_USER)
 
 DB_PATH = os.getenv("DB_PATH", "ocorrencias.db")
-EMAIL_PEDAGOGICO = "pedagogico.vgd@vgd.ifmt.edu.br"
+EMAIL_PEDAGOGICO = "ensino.vgd@ifmt.edu.br"
 
 # Coordenações por curso
 MAPEAMENTO_EMAILS = {
