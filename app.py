@@ -13,9 +13,9 @@ app = Flask(__name__)
 # =========================
 SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
-SMTP_USER = os.getenv("SMTP_USER", "")
-SMTP_PASS = os.getenv("SMTP_PASS", "")
-EMAIL_FROM = os.getenv("EMAIL_FROM", SMTP_USER)
+SMTP_USER = os.getenv("SMTP_USER", "washington.martins@ifmt.edu.br")
+SMTP_PASS = os.getenv("SMTP_PASS", "bvys rvrq zfrm rdsi")
+EMAIL_FROM = os.getenv("EMAIL_FROM",  "washington.martins@ifmt.edu.br")
 
 DB_PATH = os.getenv("DB_PATH", "ocorrencias.db")
 EMAIL_PEDAGOGICO = "pedagogico.vgd@vgd.ifmt.edu.br"
